@@ -1,12 +1,11 @@
 const express = require('express')
 const app = express()
 const config = require('../config')
-const { pollModel } = require('./setupDb')
-
+const models = require('./models')
 app.use(express.json())
 
 app.post('/api/poll', (req, res) => {
-  pollModel.create(req.body)
+  models.pollModel.create(req.body)
 })
 
 app.listen(config.serverPort, _ => {
