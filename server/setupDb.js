@@ -1,13 +1,3 @@
-const Sequelize =  require('sequelize')
+const sequelize =  require('./setupSequelize')()
+const models = require('./models/index')
 
-function setup() {
-  sequelize.drop()
-  .then(_ => {
-    sequelize.sync()
-  })
-}
-module.exports = {
-  userModel,
-  pollModel,
-  setup
-}

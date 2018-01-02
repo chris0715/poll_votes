@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 
 
 
-const pollOptionsModel = sequelize.define('pollOptions', {
+const pollOptionsModel = sequelize.define('pollOption', {
   name: {
     type: Sequelize.STRING, 
     allowNull: false,

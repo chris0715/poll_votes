@@ -6,6 +6,7 @@ import { Switch, Route} from 'react-router-dom'
 import CreatePoll from '../containers/CreatePoll'
 import Home from './Home'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import PollDetail from '../containers/PollDetail'
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/create-poll' component={CreatePoll} />
+            <Route path='/poll/:id' component={PollDetail} />
           </Switch>
         </main>
       </div>

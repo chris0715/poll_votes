@@ -3,7 +3,10 @@ const Sequelize = require('sequelize')
 
 
  const pollModel = sequelize.define('poll', {
-  title: Sequelize.STRING
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 })
 
 module.exports = pollModel
