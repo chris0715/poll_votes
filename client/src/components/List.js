@@ -5,13 +5,15 @@ const List = (props) => {
   return (
     <table className='table'>
      <thead>
+       <tr>
         <th>Title</th>
+       </tr>
       </thead>  
       <tbody>
         {
-          props.list.map(listItem => (
-            <tr onClick={() => props.history.push('/create')}>
-              {listItem.title}
+          props.list.map((listItem, index) => (
+            <tr key={index} onClick={() => props.history.push(`/poll/${listItem.id}`)}>
+              <td>{listItem.title}</td>
             </tr>
           ))
         }

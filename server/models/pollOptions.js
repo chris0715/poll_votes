@@ -8,6 +8,10 @@ const pollOptionsModel = sequelize.define('pollOption', {
     type: Sequelize.STRING, 
     allowNull: false,
     unique: true
+  },
+  count: {
+    type: Sequelize.SMALLINT,
+    defaultValue: 0
   }
 })
 
