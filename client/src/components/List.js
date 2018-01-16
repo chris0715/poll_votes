@@ -9,7 +9,7 @@ const List = (props) => {
         <th>Title</th>
        </tr>
       </thead>  
-      <tbody>
+      <tbody className='list-hover'>
         {
           props.list.map((listItem, index) => (
             <tr key={index} onClick={() => props.history.push(`/poll/${listItem.id}`)}>

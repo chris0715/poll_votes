@@ -9,6 +9,6 @@
   color: white;
 }
 
-tr:hover {
+.list-hover tr:hover {
  background-color: lightblue 
 }

@@ -3,19 +3,32 @@ const app = express()
 const config = require('../config')
 const models = require('./models')
 const cors = require('cors')
-const passport = require('passport')
+const passport = require('./setupPassport')
+const session = require('express-session')
 const LocalStrategy = require('passport-local').Strategy
-passport.use(new LocalStrategy((username, password, done) => {
-  models.UserModel.findOne({where: { username }})
-  .then(result => {
-    
-  })
-  .catch()
+
+
+app.use(session({
+  secret: 'Apple'
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(express.json())
 app.use(cors())
-app.use()
+// app.use(express.session)
+// app.use(passport.session())
 
+
+app.post('/auth/login', passport.authenticate('local'), (req, res) => {
+  res.send(req.user)
+})
+app.get('/auth/logout', (req, res) => {
+  req.logout()
+})
+
+app.get('/whoami', (req, res) => {
+  res.send(req.user || { auth: false })
+})
 
 app.get('/api/poll', (req, res) => {
   models.PollModel.findAll({
@@ -65,10 +78,7 @@ app.post('/api/poll', async (req, res) => {
   } catch(e) {
     res.status(500).send(e)
   }
-
-
- 
 })
 app.listen(config.serverPort, _ => {
-  console.log('Server is now on')
+  console.log('Server is now on', config.serverPort)
 })
