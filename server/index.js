@@ -6,8 +6,9 @@ const cors = require('cors')
 const passport = require('./setupPassport')
 const session = require('express-session')
 const LocalStrategy = require('passport-local').Strategy
+const path = require('path')
 
-
+app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')))
 app.use(session({
   secret: 'Apple'
 }))
@@ -81,4 +82,8 @@ app.post('/api/poll', async (req, res) => {
 })
 app.listen(config.serverPort, _ => {
   console.log('Server is now on', config.serverPort)
+})
+
+app.get('/', (req, res) => {
+  res.sendFile('index.html')
 })

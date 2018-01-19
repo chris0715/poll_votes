@@ -12,6 +12,15 @@ class NavBar extends React.Component {
       password: '1234'
     }
   }
+componentDidMount() {
+  request({
+    method: 'GET',
+    uri: 'http://localhost:3500/whoami'
+  }).then(result => {
+    console.log(result)
+  })
+}
+
 handleSubmit() {
   const {username, password} = this.state
   request({
