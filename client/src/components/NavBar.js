@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import request from 'request-promise'
+import axios from 'axios'
+const serverAddress = 'http://localhost:3500'
 
 class NavBar extends React.Component {
 
@@ -13,21 +14,21 @@ class NavBar extends React.Component {
     }
   }
 componentDidMount() {
-  request({
-    method: 'GET',
-    uri: 'http://localhost:3500/whoami'
-  }).then(result => {
-    console.log(result)
-  })
+  if (localStorage.getItem('user')) {
+    this.setState({user: JSON.parse(localStorage.getItem('user'))})
+  }
 }
 
 handleSubmit() {
   const {username, password} = this.state
-  request({
-    uri: 'http://localhost:3500/auth/login',
+  axios({
+    url: 'http://localhost:3500/auth/login',
     method: 'POST',
-    body: {username, password},
-    json: true
+    data: {username, password},
+    withCredentials: true
+  })
+  .then(res => { 
+    localStorage.setItem('user', JSON.stringify(res.data))
   })
 }
 render() {
@@ -41,11 +42,28 @@ render() {
         <li className='nav-item' ><Link className='nav-link' to='/'>Home </Link></li>
         <li className='nav-item'><Link className='nav-link'  to='create-poll'>Create Poll</Link></li>
       </ul>
-      {!this.state.isLoggedIn && <ul className='navbar-nav'>
+      {this.state.user ?
+      
+      <ul>
+        <li className='nav-item dropdown'>
+        <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Welcome {this.state.username}</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" onClick={()=> {
+          axios({
+            method:'GET',
+            url:`http://localhost:3500/auth/logout`,
+            withCredentials: true
+          })
+        }}>logout</a>
+          <a class="dropdown-item" href="#">Action</a>
+          </div>
+        </li>
+      </ul> : <ul className='navbar-nav'>
         <li><input placeholder='username' /></li>
         <li><input placeholder='password' /></li>
         <button onClick={this.handleSubmit.bind(this)}>Submit</button>
       </ul>}
+      
     </div>
     </nav>
   )

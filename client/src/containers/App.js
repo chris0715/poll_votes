@@ -7,8 +7,20 @@ import CreatePoll from '../containers/CreatePoll'
 import Home from './Home'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import PollDetail from '../containers/PollDetail'
-
+import axios from 'axios'
 class App extends Component {
+  componentDidMount() {
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3500/auth/whoami',
+      withCredentials: true
+    })
+    .then(res => {
+    })
+    .catch(error => {
+      localStorage.removeItem('user')
+    })
+  }
   render() {
     return (
       <div>

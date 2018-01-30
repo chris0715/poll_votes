@@ -7,29 +7,29 @@ const passport = require('./setupPassport')
 const session = require('express-session')
 const LocalStrategy = require('passport-local').Strategy
 const path = require('path')
+const auth = require('./routes/auth')
+const morgan = require('morgan')
+const cookierParser = require('cookie-parser')
 
 app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')))
+app.use(morgan('dev'))
 app.use(session({
-  secret: 'Apple'
+  secret: 'Apple',
+  saveUninitialized: true,
+  resave:true
 }))
+app.use(cookierParser())
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.json())
-app.use(cors())
-// app.use(express.session)
-// app.use(passport.session())
+app.use(cors({
+  origin: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  exposedHeaders:'* '
+}))
 
-
-app.post('/auth/login', passport.authenticate('local'), (req, res) => {
-  res.send(req.user)
-})
-app.get('/auth/logout', (req, res) => {
-  req.logout()
-})
-
-app.get('/whoami', (req, res) => {
-  res.send(req.user || { auth: false })
-})
+app.use('/auth', auth)
 
 app.get('/api/poll', (req, res) => {
   models.PollModel.findAll({
@@ -85,5 +85,5 @@ app.listen(config.serverPort, _ => {
 })
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html')
+  res.sendFile(path.resolve('..','client','build','index.html'))
 })
