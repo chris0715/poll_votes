@@ -8,6 +8,7 @@ import Home from './Home'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import PollDetail from '../containers/PollDetail'
 import axios from 'axios'
+import PrivateRoute from '../shared/PrivateRoute'
 class App extends Component {
   componentDidMount() {
     axios({
@@ -28,7 +29,7 @@ class App extends Component {
         <main className='container'>
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route path='/create-poll' component={CreatePoll} />
+            <PrivateRoute path='/create-poll' component={CreatePoll} />
             <Route path='/poll/:id' component={PollDetail} />
           </Switch>
         </main>

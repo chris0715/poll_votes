@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import AuthChecker from '../shared/Auth'
 const serverAddress = 'http://localhost:3500'
 
 class NavBar extends React.Component {
@@ -40,7 +41,6 @@ render() {
     <div className='collapse navbar-collapse' id='navbarSupportedContent'>
       <ul className='navbar-nav mr-auto'>
         <li className='nav-item' ><Link className='nav-link' to='/'>Home </Link></li>
-        <li className='nav-item'><Link className='nav-link'  to='create-poll'>Create Poll</Link></li>
       </ul>
       {this.state.user ?
       
@@ -48,6 +48,7 @@ render() {
         <li className='nav-item dropdown'>
         <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Welcome {this.state.username}</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li className='nav-item'><Link className='nav-link'  to='create-poll'>Create Poll</Link></li>
         <a class="dropdown-item" onClick={()=> {
           axios({
             method:'GET',
